@@ -1,0 +1,25 @@
+name: Entur/Docker/Lint
+on:
+  workflow_dispatch:
+    inputs:
+      dockerfile:
+        description: 'Which dockerfile to run, default Dockerfile'
+        type: string
+        default: Dockerfile
+      ignores:
+        description: 'A comma separated list of Hadolint Ignores'
+        type: string
+        default: ''
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      # id-token: write
+      # pull-requests: write
+    steps:
+      - uses: actions/checkout@v4.1.1
+      - uses: hadolint/hadolint-action@v3.1.0
+        with:
+          dockerfile: ${{ github.event.inputs.dockerfile }}
+          ignore: ${{ github.event.inputs.ignores }}

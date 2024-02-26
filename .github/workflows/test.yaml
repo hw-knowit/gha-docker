@@ -1,0 +1,29 @@
+name: Test
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  test-docker-lint-defaults-ok:
+    name: Docker/Lint/Default
+    uses: entur/gha-docker/.github/workflows/lint.yaml@main
+  test-docker-lint-custom-ok:
+    name: Docker/Lint/Custom
+    uses: entur/gha-docker/.github/workflows/lint.yaml@main
+    with:
+      dockerfile: Dockerfile.ok
+  test-docker-lint-custom-fail:
+    name: Docker/Lint/Custom/Fail
+    allow-failure: true
+    uses: entur/gha-docker/.github/workflows/lint.yaml@main
+    with:
+      dockerfile: Dockerfile.bad
+  test-docker-lint-custom-fail-with-ignore-ok:
+    name: Docker/Lint/Custom/Ignore
+    uses: entur/gha-docker/.github/workflows/lint.yaml@main
+    with:
+      dockerfile: Dockerfile.bad
+      ignores: DL3000
