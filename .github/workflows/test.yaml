@@ -10,7 +10,9 @@ jobs:
   test-docker-lint-defaults-ok:
     name: Docker/Lint/Default
     uses: entur/gha-docker/.github/workflows/lint.yaml@main
-    working-directory: fixture
+    defaults:
+      run:
+        working-directory: ./fixture
   test-docker-lint-custom-ok:
     name: Docker/Lint/Custom
     uses: entur/gha-docker/.github/workflows/lint.yaml@main
