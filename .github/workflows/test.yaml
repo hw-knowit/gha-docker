@@ -18,11 +18,11 @@ jobs:
   test-docker-lint-custom-fail:
     name: Docker/Lint/Custom/Fail
     uses: entur/gha-docker/.github/workflows/lint.yaml@main
-    continue-on-error: true
     with:
       dockerfile: Dockerfile.bad
   test-docker-lint-custom-fail-with-ignore-ok:
     name: Docker/Lint/Custom/Ignore
+    if: always()
     uses: entur/gha-docker/.github/workflows/lint.yaml@main
     with:
       dockerfile: Dockerfile.bad
