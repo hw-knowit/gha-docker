@@ -7,21 +7,14 @@ on:
       - main
 
 jobs:
-  test-docker-lint-defaults-ok:
-    name: Docker/Lint/Default
-    uses: entur/gha-docker/.github/workflows/lint.yaml@main
-    defaults:
-      run:
-        working-directory: ./fixture
-  test-docker-lint-custom-ok:
-    name: Docker/Lint/Custom
+  test-docker-lint-ok:
+    name: Lint OK
     uses: entur/gha-docker/.github/workflows/lint.yaml@main
     with:
-      dockerfile: Dockerfile.ok
-  test-docker-lint-custom-fail-with-ignore-ok:
-    name: Docker/Lint/Custom/Ignore
-    if: always()
+      dockerfile: fixture/Dockerfile.good
+  test-docker-lint-ignore-ok:
+    name: Lint Ignore OK
     uses: entur/gha-docker/.github/workflows/lint.yaml@main
     with:
-      dockerfile: Dockerfile.bad
+      dockerfile: fixture/Dockerfile.bad
       ignores: DL3000
