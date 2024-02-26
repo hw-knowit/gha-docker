@@ -1,6 +1,6 @@
 name: Entur/Docker/Lint
 on:
-  workflow_dispatch:
+  workflow_call:
     inputs:
       dockerfile:
         description: 'Which dockerfile to run, default Dockerfile'
