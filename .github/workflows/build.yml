@@ -67,8 +67,6 @@ jobs:
         uses: docker/setup-buildx-action@v3.3.0
       - id: debug-print-buildx-path
         run: echo ${{ steps.setup-buildx.outputs.name }}
-      - id: debug-list-tmp-dir-pre
-        run: ls -R /tmp
       - id: build
         uses: docker/build-push-action@v5.3.0
         with:
