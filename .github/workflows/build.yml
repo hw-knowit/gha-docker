@@ -77,8 +77,6 @@ jobs:
           tags: ${{ env.GHA_DOCKER_BUILD_IMAGE_NAME }}:latest
           provenance: false
           context: "${{ env.GHA_DOCKER_BUILD_CONTEXT }}"
-      - id: debug-list-tmp-dir-post
-        run: ls -R /tmp
       - id: save-image
         uses: actions/upload-artifact@v4.3.3
         with:
