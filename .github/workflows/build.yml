@@ -67,6 +67,8 @@ jobs:
         uses: docker/setup-buildx-action@v3.3.0
       - id: debug-print-buildx-path
         run: echo ${{ steps.setup-buildx.outputs.name }}
+      - id: debug-list-tmp-dir-pre
+        run: ls -R /tmp
       - id: build
         uses: docker/build-push-action@v5.3.0
         with:
@@ -77,7 +79,7 @@ jobs:
           tags: ${{ env.GHA_DOCKER_BUILD_IMAGE_NAME }}:latest
           provenance: false
           context: "{{defaultContext}}:${{ env.GHA_DOCKER_BUILD_CONTEXT }}"
-      - id: debug-list-tmp-dir
+      - id: debug-list-tmp-dir-post
         run: ls -R /tmp
       - id: save-image
         uses: actions/upload-artifact@v4.3.3
