@@ -55,8 +55,8 @@ jobs:
       - uses: actions/checkout@v4.1.6
       - uses: actions/upload-artifact@v4.3.3
         with:
-          name: "some_build_artifact"
-          path: "fixture/artifact.txt"
+          name: some_build_artifact
+          path: fixture/artifact.txt
           retention-days: 1
           overwrite: true
 
@@ -64,10 +64,10 @@ jobs:
     uses: ./.github/workflows/build.yml
     needs: test-build-prepare-artifact
     with:
-      context: "fixture"
-      dockerfile: "Dockerfile.artifact"
-      build_artifact_name: "some_build_artifact"
-      build_artifact_path: "data"
+      context: ./fixture
+      dockerfile: Dockerfile.artifact
+      build_artifact_name: some_build_artifact
+      build_artifact_path: data
 
   test-build-ok-with-artifact-outputs:
     runs-on: ubuntu-24.04
