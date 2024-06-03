@@ -146,7 +146,7 @@ jobs:
           provenance: false
       - id: tag-version
         env:
-          IMAGE_TAG: ${{ steps.push.outputs.image_name }}:${{ steps.push.outputs.image_tag }}
+          IMAGE_TAG: ${{ steps.push.outputs.image_name }}.${{ steps.push.outputs.image_tag }}
         run: |
           git config user.name github-actions[bot]
           git config user.email 41898282+github-actions[bot]@users.noreply.github.com
