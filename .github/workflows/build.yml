@@ -60,6 +60,7 @@ jobs:
         if: env.GHA_DOCKER_BUILD_ARTIFACT_NAME != ''
         with:
           name: ${{ env.GHA_DOCKER_BUILD_ARTIFACT_NAME }}
+          path: ${{ env.GHA_DOCKER_BUILD_ARTIFACT_PATH }}
       - id: debug-list-artifacts
         run: ls -R
       - id: setup-buildx
