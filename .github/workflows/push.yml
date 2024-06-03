@@ -57,8 +57,9 @@ jobs:
     timeout-minutes: ${{ inputs.timeout_minutes }}
     environment: ${{ inputs.environment }}
     permissions:
-      contents: read
+      contents: write
       id-token: write
+      pull-requests: write
     outputs:
       meta: ${{ steps.push.outputs.metadata }}
       image_name: ${{ env.GHA_DOCKER_PUSH_IMAGE_NAME }}
