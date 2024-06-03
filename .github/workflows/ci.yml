@@ -133,8 +133,8 @@ jobs:
     with:
       environment: az-dev
       cloud_provider: az
-      context: "fixture"
-      dockerfile: "Dockerfile.artifact"
+      context: .
+      dockerfile: fixture/Dockerfile.artifact
       image_tag: "ci-test-tag"
 
   test-tag-acr-outputs-ok:
