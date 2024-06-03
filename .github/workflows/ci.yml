@@ -66,8 +66,7 @@ jobs:
     with:
       context: .
       dockerfile: fixture/Dockerfile.artifact
-      image_name: gha-docker
-      image_tag: artifact
+      image_name: gha-docker-artifact
       build_artifact_name: some_build_artifact
       build_artifact_path: data
 
@@ -87,8 +86,8 @@ jobs:
   test-build-ok-with-custom-image-name:
     uses: ./.github/workflows/build.yml
     with:
-      dockerfile: "fixture/Dockerfile.good"
-      image_name: "custom_image_name"
+      dockerfile: fixture/Dockerfile.good
+      image_name: custom_image_name
 
   test-build-ok-with-custom-image-name-outputs:
     runs-on: ubuntu-24.04
@@ -109,8 +108,7 @@ jobs:
     with:
       environment: dev
       context: .
-      image_name: gha-docker
-      image_tag: artifact
+      image_name: gha-docker-artifact
       dockerfile: fixture/Dockerfile.artifact
 
   test-push-gcr-ok-with-tag:
