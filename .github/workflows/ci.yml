@@ -66,7 +66,6 @@ jobs:
     with:
       context: .
       dockerfile: fixture/Dockerfile.artifact
-      image_name: gha-docker-artifact
       build_artifact_name: some_build_artifact
       build_artifact_path: data
 
@@ -82,6 +81,32 @@ jobs:
         with:
           expected: "gha-docker"
           actual: ${{ needs.test-build-ok-with-artifact.outputs.image_artifact }}
+
+  test-push-gcr-ok:
+    needs: test-build-ok-with-artifact
+    uses: ./.github/workflows/push.yml
+    with:
+      environment: dev
+      context: .
+      dockerfile: fixture/Dockerfile.artifact
+
+  test-push-gcr-ok-with-tag:
+    needs: test-build-ok-with-artifact
+    uses: ./.github/workflows/push.yml
+    with:
+      environment: dev
+      context: .
+      dockerfile: fixture/Dockerfile.artifact
+      image_tag: ci-test-tag
+
+  test-tag-gcr-outputs-ok:
+    runs-on: ubuntu-24.04
+    needs: test-push-gcr-ok-with-tag
+    steps:
+      - uses: nick-fields/assert-action@v2
+        with:
+          expected: "ci-test-tag"
+          actual: ${{ needs.test-push-gcr-ok-with-tag.outputs.image_tag }}
 
   test-build-ok-with-custom-image-name:
     uses: ./.github/workflows/build.yml
@@ -102,33 +127,6 @@ jobs:
           expected: "custom_image_name"
           actual: ${{ needs.test-build-ok-with-custom-image-name.outputs.image_artifact }}
 
-  test-push-gcr-ok:
-    needs: test-build-ok-with-artifact
-    uses: ./.github/workflows/push.yml
-    with:
-      environment: dev
-      context: .
-      image_name: gha-docker-artifact
-      dockerfile: fixture/Dockerfile.artifact
-
-  test-push-gcr-ok-with-tag:
-    needs: test-build-ok-with-artifact
-    uses: ./.github/workflows/push.yml
-    with:
-      environment: dev
-      context: .
-      dockerfile: fixture/Dockerfile.artifact
-      image_tag: "ci-test-tag"
-
-  test-tag-gcr-outputs-ok:
-    runs-on: ubuntu-24.04
-    needs: test-push-gcr-ok-with-tag
-    steps:
-      - uses: nick-fields/assert-action@v2
-        with:
-          expected: "ci-test-tag"
-          actual: ${{ needs.test-push-gcr-ok-with-tag.outputs.image_tag }}
-
   test-push-acr-ok-with-tag:
     needs: test-build-ok-with-artifact
     uses: ./.github/workflows/push.yml
@@ -137,7 +135,7 @@ jobs:
       cloud_provider: az
       context: .
       dockerfile: fixture/Dockerfile.artifact
-      image_tag: "ci-test-tag"
+      image_tag: ci-test-az-tag
 
   test-tag-acr-outputs-ok:
     runs-on: ubuntu-24.04
