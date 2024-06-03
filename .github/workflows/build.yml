@@ -76,7 +76,7 @@ jobs:
           cache-to: type=gha,mode=max
           tags: ${{ env.GHA_DOCKER_BUILD_IMAGE_NAME }}:latest
           provenance: false
-          context: "{{defaultContext}}:${{ env.GHA_DOCKER_BUILD_CONTEXT }}"
+          context: "${{ env.GHA_DOCKER_BUILD_CONTEXT }}"
       - id: debug-list-tmp-dir-post
         run: ls -R /tmp
       - id: save-image
