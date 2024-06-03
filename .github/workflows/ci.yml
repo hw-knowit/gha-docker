@@ -106,16 +106,16 @@ jobs:
     uses: ./.github/workflows/push.yml
     with:
       environment: dev
-      context: "fixture"
-      dockerfile: "Dockerfile.artifact"
+      context: .
+      dockerfile: fixture/Dockerfile.artifact
 
   test-push-gcr-ok-with-tag:
     needs: test-build-ok-with-artifact
     uses: ./.github/workflows/push.yml
     with:
       environment: dev
-      context: "fixture"
-      dockerfile: "Dockerfile.artifact"
+      context: .
+      dockerfile: fixture/Dockerfile.artifact
       image_tag: "ci-test-tag"
 
   test-tag-gcr-outputs-ok:
