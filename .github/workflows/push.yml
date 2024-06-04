@@ -152,7 +152,6 @@ jobs:
           context: .
           push: true
           #cache-from: type=gha
-          file: ${{ env.GHA_DOCKER_PUSH_DOCKERFILE }}
           tags: ${{ env.GHA_DOCKER_PUSH_IMAGE }}:${{ env.GHA_DOCKER_PUSH_IMAGE_TAG }}
           #tags: ${{ steps.meta.outputs.tags }}
           #labels: ${{ steps.meta.outputs.labels }}
