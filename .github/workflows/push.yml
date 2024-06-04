@@ -138,7 +138,7 @@ jobs:
       - id: push
         uses: docker/build-push-action@v5.3.0
         with:
-          context: "${{ env.GHA_DOCKER_PUSH_CONTEXT }}"
+          # context: "${{ env.GHA_DOCKER_PUSH_CONTEXT }}"
           push: true
           cache-from: type=gha
           file: ${{ env.GHA_DOCKER_PUSH_DOCKERFILE }}
