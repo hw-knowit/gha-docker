@@ -64,15 +64,15 @@ jobs:
       - id: setup-buildx
         uses: docker/setup-buildx-action@v3.3.0
       - id: build
-        uses: docker/build-push-action@v5.3.0
+        uses: docker/build-push-action@v3.3.1
         with:
-          #file: ${{ env.GHA_DOCKER_BUILD_DOCKERFILE }}
+          context: .
+          file: ${{ env.GHA_DOCKER_BUILD_DOCKERFILE }}
           push: false
           outputs: "type=docker,dest=/tmp/${{ env.GHA_DOCKER_BUILD_IMAGE_NAME }}.tar"
           cache-to: type=gha,mode=max
           tags: ${{ env.GHA_DOCKER_BUILD_IMAGE_NAME }}:${{ github.sha }}
           provenance: false
-          context: .
       - id: save-image
         uses: actions/upload-artifact@v4.3.3
         with:
