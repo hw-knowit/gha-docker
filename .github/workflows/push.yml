@@ -129,32 +129,33 @@ jobs:
         run: |
           docker load --input /tmp/${{ env.GHA_DOCKER_PUSH_IMAGE_NAME }}.tar
           docker image ls -a
-      # - id: meta
-      #   uses: docker/metadata-action@v5.5.1
-      #   with:
-      #     context: workflow
-      #     images: ${{ env.GHA_DOCKER_PUSH_IMAGE }}
-      #     tags: |
-      #       type=schedule
-      #       type=ref,event=branch
-      #       type=ref,event=pr
-      #       type=semver,pattern={{version}}
-      #       type=semver,pattern={{major}}.{{minor}}.{{patch}}
-      #       type=semver,pattern={{major}}.{{minor}}
-      #       type=semver,pattern={{major}}
-      #       type=sha
-      #       type=raw,value=${{ env.GHA_DOCKER_PUSH_BRANCH_NAME }}
-      #       type=raw,value=${{ env.GHA_DOCKER_PUSH_IMAGE_TAG }}
-      #       type=raw,value=latest
+      - id: meta
+        uses: docker/metadata-action@v5.5.1
+        with:
+          context: workflow
+          images: ${{ env.GHA_DOCKER_PUSH_IMAGE_NAME }}
+          tags: |
+            type=schedule
+            type=ref,event=branch
+            type=ref,event=pr
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}.{{patch}}
+            type=semver,pattern={{major}}.{{minor}}
+            type=semver,pattern={{major}}
+            type=sha
+            type=raw,value=${{ env.GHA_DOCKER_PUSH_BRANCH_NAME }}
+            type=raw,value=${{ env.GHA_DOCKER_PUSH_IMAGE_TAG }}
+            type=raw,value=${{ env.GHA_DOCKER_PUSH_IMAGE }}
+            type=raw,value=latest
       - id: push
         uses: docker/build-push-action@v5.3.0
         with:
           context: .
           push: true
           #cache-from: type=gha
-          tags: ${{ env.GHA_DOCKER_PUSH_IMAGE }}:${{ env.GHA_DOCKER_PUSH_IMAGE_TAG }}
-          #tags: ${{ steps.meta.outputs.tags }}
-          #labels: ${{ steps.meta.outputs.labels }}
+          file: ${{ env.GHA_DOCKER_PUSH_DOCKERFILE }}
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
           provenance: false
       - id: tag-version
         env:
