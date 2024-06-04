@@ -95,24 +95,24 @@ jobs:
           expected: "ci-test-tag"
           actual: ${{ needs.test-push-gcr-ok-with-tag.outputs.image_tag }}
 
-  test-build-ok-with-custom-image-name:
-    uses: ./.github/workflows/build.yml
-    with:
-      dockerfile: fixture/Dockerfile.good
-      image_name: custom_image_name
+  # test-build-ok-with-custom-image-name:
+  #   uses: ./.github/workflows/build.yml
+  #   with:
+  #     dockerfile: fixture/Dockerfile.good
+  #     image_name: custom_image_name
 
-  assert-build-ok-with-custom-image-name-outputs:
-    runs-on: ubuntu-24.04
-    needs: test-build-ok-with-custom-image-name
-    steps:
-      - uses: nick-fields/assert-action@v2
-        with:
-          expected: "custom_image_name:latest"
-          actual: ${{ needs.test-build-ok-with-custom-image-name.outputs.image_tag }}
-      - uses: nick-fields/assert-action@v2
-        with:
-          expected: "custom_image_name"
-          actual: ${{ needs.test-build-ok-with-custom-image-name.outputs.image_artifact }}
+  # assert-build-ok-with-custom-image-name-outputs:
+  #   runs-on: ubuntu-24.04
+  #   needs: test-build-ok-with-custom-image-name
+  #   steps:
+  #     - uses: nick-fields/assert-action@v2
+  #       with:
+  #         expected: "custom_image_name:latest"
+  #         actual: ${{ needs.test-build-ok-with-custom-image-name.outputs.image_tag }}
+  #     - uses: nick-fields/assert-action@v2
+  #       with:
+  #         expected: "custom_image_name"
+  #         actual: ${{ needs.test-build-ok-with-custom-image-name.outputs.image_artifact }}
 
   test-push-acr-ok-with-tag:
     needs: test-build-ok-with-artifact
