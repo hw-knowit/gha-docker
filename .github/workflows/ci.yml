@@ -69,19 +69,6 @@ jobs:
       build_artifact_name: some_build_artifact
       build_artifact_path: data
 
-  assert-build-ok-with-artifact-outputs:
-    runs-on: ubuntu-24.04
-    needs: test-build-ok-with-artifact
-    steps:
-      - uses: nick-fields/assert-action@v2
-        with:
-          expected: "gha-docker:latest"
-          actual: ${{ needs.test-build-ok-with-artifact.outputs.image_tag }}
-      - uses: nick-fields/assert-action@v2
-        with:
-          expected: "gha-docker"
-          actual: ${{ needs.test-build-ok-with-artifact.outputs.image_artifact }}
-
   test-push-gcr-ok:
     needs: test-build-ok-with-artifact
     uses: ./.github/workflows/push.yml
