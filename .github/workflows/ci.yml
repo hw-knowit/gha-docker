@@ -34,7 +34,7 @@ jobs:
       dockerfile: fixture/Dockerfile.bad
       ignore: DL3000
 
-  test-lint-fail-ok:
+  assert-lint-fail-ok:
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4.1.6
@@ -69,7 +69,7 @@ jobs:
       build_artifact_name: some_build_artifact
       build_artifact_path: data
 
-  test-build-ok-with-artifact-outputs:
+  assert-build-ok-with-artifact-outputs:
     runs-on: ubuntu-24.04
     needs: test-build-ok-with-artifact
     steps:
@@ -99,7 +99,7 @@ jobs:
       dockerfile: fixture/Dockerfile.artifact
       image_tag: ci-test-tag
 
-  test-tag-gcr-outputs-ok:
+  assert-tag-gcr-outputs-ok:
     runs-on: ubuntu-24.04
     needs: test-push-gcr-ok-with-tag
     steps:
@@ -114,7 +114,7 @@ jobs:
       dockerfile: fixture/Dockerfile.good
       image_name: custom_image_name
 
-  test-build-ok-with-custom-image-name-outputs:
+  assert-build-ok-with-custom-image-name-outputs:
     runs-on: ubuntu-24.04
     needs: test-build-ok-with-custom-image-name
     steps:
@@ -137,7 +137,7 @@ jobs:
       dockerfile: fixture/Dockerfile.artifact
       image_tag: ci-test-az-tag
 
-  test-tag-acr-outputs-ok:
+  assert-tag-acr-outputs-ok:
     runs-on: ubuntu-24.04
     needs: test-push-acr-ok-with-tag
     steps:
