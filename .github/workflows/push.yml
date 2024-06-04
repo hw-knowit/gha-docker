@@ -124,7 +124,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: ${{ env.GHA_DOCKER_PUSH_IMAGE_NAME }}
-          path: /tmp/${{ env.GHA_DOCKER_PUSH_IMAGE_NAME }}.tar
+          path: /tmp
       - name: Load image
         run: |
           docker load --input /tmp/${{ env.GHA_DOCKER_PUSH_IMAGE_NAME }}.tar
