@@ -135,7 +135,6 @@ jobs:
             type=sha
             type=raw,value=${{ env.GHA_DOCKER_PUSH_BRANCH_NAME }}
             type=raw,value=${{ env.GHA_DOCKER_PUSH_IMAGE_TAG }}
-            type=raw,value=${{ env.GHA_DOCKER_PUSH_IMAGE }}
             type=raw,value=latest
       - uses: entur/gha-meta/.github/actions/docker-auth@v1.1.7
         with:
@@ -159,6 +158,7 @@ jobs:
       #     #provenance: false
       - id: docker-push
         run: |
+          docker tag ${{ env.GHA_DOCKER_PUSH_IMAGE_NAME }} ${{ env.GHA_DOCKER_PUSH_IMAGE }}:${{ env.GHA_DOCKER_PUSH_IMAGE_TAG }}
           docker push ${{ env.GHA_DOCKER_PUSH_IMAGE }}:${{ env.GHA_DOCKER_PUSH_IMAGE_TAG }}
       - id: tag-version
         env:
