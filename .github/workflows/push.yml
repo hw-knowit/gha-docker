@@ -158,7 +158,7 @@ jobs:
       #     #provenance: false
       - id: docker-push
         run: |
-          docker tag ${{ env.GHA_DOCKER_PUSH_IMAGE_NAME }} ${{ env.GHA_DOCKER_PUSH_IMAGE }}:${{ env.GHA_DOCKER_PUSH_IMAGE_TAG }}
+          docker tag ${{ env.GHA_DOCKER_PUSH_IMAGE_NAME }}:${{ github.sha }} ${{ env.GHA_DOCKER_PUSH_IMAGE }}:${{ env.GHA_DOCKER_PUSH_IMAGE_TAG }}
           docker push ${{ env.GHA_DOCKER_PUSH_IMAGE }}:${{ env.GHA_DOCKER_PUSH_IMAGE_TAG }}
       - id: tag-version
         env:
