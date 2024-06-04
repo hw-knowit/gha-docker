@@ -132,7 +132,7 @@ jobs:
       - id: meta
         uses: docker/metadata-action@v5.5.1
         with:
-          context: .
+          context: workflow
           images: ${{ env.GHA_DOCKER_PUSH_IMAGE }}
           tags: |
             type=schedule

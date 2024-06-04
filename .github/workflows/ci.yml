@@ -78,7 +78,7 @@ jobs:
       dockerfile: fixture/Dockerfile.artifact
 
   test-push-gcr-ok-with-tag:
-    needs: test-build-ok-with-artifact
+    needs: test-push-gcr-ok
     uses: ./.github/workflows/push.yml
     with:
       environment: dev
