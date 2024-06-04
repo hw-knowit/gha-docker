@@ -110,16 +110,6 @@ jobs:
           echo "GHA_DOCKER_PUSH_IMAGE=${GHA_DOCKER_PUSH_DOCKER_REGISTRY}/${GHA_DOCKER_PUSH_IMAGE_NAME}" >> $GITHUB_ENV
       - uses: actions/checkout@v4.1.6
       - uses: docker/setup-buildx-action@v3.3.0
-      - uses: entur/gha-meta/.github/actions/docker-auth@v1.1.7
-        with:
-          environment: ${{ env.GHA_DOCKER_PUSH_ENVIRONMENT }}
-          cloud_provider: ${{ env.GHA_DOCKER_PUSH_CLOUD_PROVIDER }}
-          workload_identity_provider: ${{ vars.WORKLOAD_IDENTITY_PROVIDER }}
-          service_account: ${{ vars.SERVICE_ACCOUNT }}
-          azure_client_id: ${{ vars.AZURE_CLIENT_ID }}
-          azure_tenant_id: ${{ vars.AZURE_TENANT_ID }}
-          azure_subscription_id: ${{ vars.AZURE_SUBSCRIPTION_ID }}
-
       - name: Download artifact
         uses: actions/download-artifact@v4
         with:
@@ -147,16 +137,26 @@ jobs:
             type=raw,value=${{ env.GHA_DOCKER_PUSH_IMAGE_TAG }}
             type=raw,value=${{ env.GHA_DOCKER_PUSH_IMAGE }}
             type=raw,value=latest
+      - uses: entur/gha-meta/.github/actions/docker-auth@v1.1.7
+        with:
+          environment: ${{ env.GHA_DOCKER_PUSH_ENVIRONMENT }}
+          cloud_provider: ${{ env.GHA_DOCKER_PUSH_CLOUD_PROVIDER }}
+          workload_identity_provider: ${{ vars.WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ vars.SERVICE_ACCOUNT }}
+          azure_client_id: ${{ vars.AZURE_CLIENT_ID }}
+          azure_tenant_id: ${{ vars.AZURE_TENANT_ID }}
+          azure_subscription_id: ${{ vars.AZURE_SUBSCRIPTION_ID }}
       - id: push
         uses: docker/build-push-action@v5.3.0
         with:
           context: .
           push: true
           #cache-from: type=gha
-          file: ${{ env.GHA_DOCKER_PUSH_DOCKERFILE }}
-          tags: ${{ steps.meta.outputs.tags }}
+          #file: ${{ env.GHA_DOCKER_PUSH_DOCKERFILE }}
+          #tags: ${{ steps.meta.outputs.tags }},
+          tags: ${{ env.GHA_DOCKER_PUSH_IMAGE }}:${{ env.GHA_DOCKER_PUSH_IMAGE_TAG }}
           labels: ${{ steps.meta.outputs.labels }}
-          provenance: false
+          #provenance: false
       - id: tag-version
         env:
           GHA_DOCKER_PUSH_GIT_TAG: ${{ env.GHA_DOCKER_PUSH_IMAGE_NAME }}.${{ env.GHA_DOCKER_PUSH_IMAGE_TAG }}
