@@ -73,7 +73,7 @@ jobs:
           if [[ "${GITHUB_EVENT_NAME}" = "pull_request" ]]; then
             BRANCH_NAME=${GITHUB_HEAD_REF}
           else
-            BRANCH_NAME=${GITHUB_HEAD_REF}
+            BRANCH_NAME=${GITHUB_REF_NAME}
           fi
           BRANCH_NAME=${BRANCH_NAME:0:43} # truncate to max_len - len(.YYYYMMDD-SHA1234567)
           BRANCH_NAME=$(echo "$BRANCH_NAME" | sed s'/[-]$//') # remove trailing -
