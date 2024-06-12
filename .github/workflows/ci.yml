@@ -56,7 +56,7 @@ jobs:
     needs: test-build-ok-with-artifact
     uses: ./.github/workflows/push.yml
     with:
-      environment: notanenv
+      environment: dev
       context: .
       dockerfile: fixture/Dockerfile.artifact
 
