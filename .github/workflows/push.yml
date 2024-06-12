@@ -10,7 +10,7 @@ on:
       environment:
         type: environment
         description: "GitHub environment to use Google Cloud: (dev, tst, prd) or Azure: (az-dev, az-test, az-prod)"
-        default: "prd"
+        default: prd
       context:
         description: "Build context, default root of repository"
         type: string
