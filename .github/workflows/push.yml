@@ -116,7 +116,7 @@ jobs:
           echo "GHA_REF=${GHA_REF}" >> $GITHUB_ENV
       - uses: actions/checkout@v4.1.6
         with:
-          ref: ${GHA_REF}
+          ref: ${{ env.GHA_REF }}
           fetch-depth: 0
       # Artifact cache
       - name: Download artifact
