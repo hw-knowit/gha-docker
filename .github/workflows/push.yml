@@ -104,7 +104,7 @@ jobs:
         shell: bash
         run: |
           echo "GHA_DOCKER_PUSH_DOCKER_REGISTRY=eu.gcr.io/entur-system-1287" >> $GITHUB_ENV
-      - id: set-image
+      - id: set-envs
         shell: bash
         run: |
           echo "GHA_DOCKER_PUSH_IMAGE=${GHA_DOCKER_PUSH_DOCKER_REGISTRY}/${GHA_DOCKER_PUSH_IMAGE_NAME}" >> $GITHUB_ENV
@@ -114,9 +114,13 @@ jobs:
              GHA_REF=${GITHUB_REF_NAME}
           fi
           echo "GHA_REF=${GHA_REF}" >> $GITHUB_ENV
+      # Checkout the code
       - uses: actions/checkout@v4.1.6
+        id: checkout-ref
+        env:
+          GHA_REF: ${{ env.GHA_REF }}
         with:
-          ref: ${GHA_REF}
+          ref: ${{ env.GHA_REF }}
           fetch-depth: 0
       # Artifact cache
       - name: Download artifact

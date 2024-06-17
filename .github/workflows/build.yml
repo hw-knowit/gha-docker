@@ -48,7 +48,7 @@ jobs:
       GHA_DOCKER_BUILD_ARTIFACT_NAME: ${{ inputs.build_artifact_name }}
       GHA_DOCKER_BUILD_IMAGE_NAME: ${{ inputs.image_name }}
     steps:
-      - id: set-image-name
+      - id: set-envs
         shell: bash
         run: |
           if [[ "${GHA_DOCKER_BUILD_IMAGE_NAME}" = "repo_name" ]]; then
@@ -60,9 +60,13 @@ jobs:
              GHA_REF=${GITHUB_REF_NAME}
           fi
           echo "GHA_REF=${GHA_REF}" >> $GITHUB_ENV
+      # Checkout the code
       - uses: actions/checkout@v4.1.6
+        id: checkout-ref
+        env:
+          GHA_REF: ${{ env.GHA_REF }}
         with:
-          ref: ${GHA_REF}
+          ref: ${{ env.GHA_REF }}
           fetch-depth: 0
       - id: download-artifact
         uses: actions/download-artifact@v4
