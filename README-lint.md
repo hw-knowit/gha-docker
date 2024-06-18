@@ -11,6 +11,19 @@ jobs:
     uses: entur/gha-docker/.github/workflows/lint.yml@v1
 ```
 
+## Examples
+
+### Docker lint with Hadolint ignores
+
+  ```yml
+  jobs:
+    docker-lint:
+      name: Docker Lint
+      uses: entur/gha-docker/.github/workflows/lint.yml@v1
+      with:
+        ignore: "DL3008,DL3015"
+  ```
+
 ## Inputs
 
 <!-- AUTO-DOC-INPUT:START - Do not remove or modify this section -->
