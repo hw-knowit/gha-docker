@@ -107,6 +107,7 @@ jobs:
       context: .
       dockerfile: fixture/Dockerfile.artifact
       image_tag: ci-test-az-tag
+      git_tag: false
 
   assert-tag-acr-outputs-ok:
     runs-on: ubuntu-24.04
