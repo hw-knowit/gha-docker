@@ -74,7 +74,7 @@ jobs:
         run: |
           echo "GHA_DOCKER_PUSH_DATE=$(date +'%Y%m%d')" >> $GITHUB_ENV
           # Convert ref name to a valid git & docker tag name
-          if [[ "${GITHUB_EVENT_NAME}" == pull_request* ]]; then
+          if [[ "${GITHUB_EVENT_NAME}" = "pull_request" ]]; then
             BRANCH_NAME=${GITHUB_HEAD_REF}
           else
             BRANCH_NAME=${GITHUB_REF_NAME}
@@ -112,13 +112,13 @@ jobs:
         shell: bash
         run: |
           echo "GHA_DOCKER_PUSH_IMAGE=${GHA_DOCKER_PUSH_DOCKER_REGISTRY}/${GHA_DOCKER_PUSH_IMAGE_NAME}" >> $GITHUB_ENV
-          if [[ "${GITHUB_EVENT_NAME}" == pull_request* ]]; then
+          if [[ "${GITHUB_EVENT_NAME}" = "pull_request" ]]; then
              GHA_REF=${GITHUB_HEAD_REF}
           else
              GHA_REF=${GITHUB_REF_NAME}
           fi
           echo "GHA_REF=${GHA_REF}" >> $GITHUB_ENV
-      - uses: actions/checkout@v4.1.7
+      - uses: actions/checkout@v4.1.6
         with:
           ref: ${{ env.GHA_REF }}
           fetch-depth: 0
