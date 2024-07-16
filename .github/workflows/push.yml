@@ -74,7 +74,7 @@ jobs:
         run: |
           echo "GHA_DOCKER_PUSH_DATE=$(date +'%Y%m%d')" >> $GITHUB_ENV
           # Convert ref name to a valid git & docker tag name
-          if [[ "${GITHUB_EVENT_NAME}" = "pull_request" ]]; then
+          if [[ "${GITHUB_EVENT_NAME}" == pull_request* ]]; then
             BRANCH_NAME=${GITHUB_HEAD_REF}
           else
             BRANCH_NAME=${GITHUB_REF_NAME}
