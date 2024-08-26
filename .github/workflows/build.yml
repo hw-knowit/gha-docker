@@ -77,7 +77,7 @@ jobs:
           name: ${{ env.GHA_DOCKER_BUILD_ARTIFACT_NAME }}
           path: ${{ env.GHA_DOCKER_BUILD_ARTIFACT_PATH }}
       - id: setup-buildx
-        uses: docker/setup-buildx-action@v3.6.0
+        uses: docker/setup-buildx-action@v3.6.1
       # Authenticate with cloud provider to be able to download source images from our own docker repository
       - uses: entur/gha-meta/.github/actions/docker-auth@v1.1.7
         with:
