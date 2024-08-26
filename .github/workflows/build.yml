@@ -88,7 +88,7 @@ jobs:
           azure_tenant_id: ${{ vars.CI_AZURE_TENANT_ID }}
           azure_subscription_id: ${{ vars.CI_AZURE_SUBSCRIPTION_ID }}
       - id: build
-        uses: docker/build-push-action@v6.5.0
+        uses: docker/build-push-action@v6.7.0
         with:
           context: ${{ env.GHA_DOCKER_BUILD_CONTEXT }}
           file: ${{ env.GHA_DOCKER_BUILD_DOCKERFILE }}
