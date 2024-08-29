@@ -20,7 +20,7 @@ on:
         type: string
         default: "Dockerfile"
       image_tag:
-        description: "Docker tag"
+        description: "Docker tag. If not set, it will be set to 'branch_name.date-SHA'"
         type: string
         default: "image_tag"
       cloud_provider:
