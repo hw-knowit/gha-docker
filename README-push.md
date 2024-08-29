@@ -24,7 +24,7 @@ jobs:
 |       <a name="input_environment"></a>[environment](#input_environment)       | string  |  false   |    `"prd"`     | GitHub environment to use Google <br>Cloud: (dev, tst, prd) or Azure: (az-dev, az-test, az-prod)  |
 |             <a name="input_git_tag"></a>[git_tag](#input_git_tag)             | boolean |  false   |     `true`     |                                      Tag git with image_tag?                                      |
 |        <a name="input_image_name"></a>[image_name](#input_image_name)         | string  |  false   | `"repo_name"`  |                                 GitHub artifact with Docker image                                 |
-|          <a name="input_image_tag"></a>[image_tag](#input_image_tag)          | string  |  false   | `"image_tag"`  |                                            Docker tag                                             |
+|          <a name="input_image_tag"></a>[image_tag](#input_image_tag)          | string  |  false   | `"image_tag"`  |             Docker tag. If not set, <br>it will be set to <br>'branch_name.date-SHA'              |
 | <a name="input_timeout_minutes"></a>[timeout_minutes](#input_timeout_minutes) | number  |  false   |      `10`      |                                        Timeout in minutes                                         |
 
 <!-- AUTO-DOC-INPUT:END -->
