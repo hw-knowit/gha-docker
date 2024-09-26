@@ -11,6 +11,13 @@ on:
         description: "Dockerfile to use for build"
         type: string
         default: "Dockerfile"
+      dockerfile_artifact_name:
+        description: "Name of Dockerfile GitHub artifact to add to build."
+        type: string
+      dockerfile_artifact_filename:
+        description: "Name of Dockerfile in artifact"
+        type: string
+        default: "Dockerfile"
       image_name:
         description: "Image name to use for the build"
         type: string
@@ -50,6 +57,8 @@ jobs:
     env:
       GHA_DOCKER_BUILD_CONTEXT: ${{ inputs.context }}
       GHA_DOCKER_BUILD_DOCKERFILE: ${{ inputs.dockerfile }}
+      GHA_DOCKER_BUILD_DOCKERFILE_ARTIFACT_NAME: ${{ inputs.dockerfile_artifact_name }}
+      GHA_DOCKER_BUILD_DOCKERFILE_ARTIFACT_FILENAME: ${{ inputs.dockerfile_artifact_filename }}
       GHA_DOCKER_BUILD_ARTIFACT_PATH: ${{ inputs.build_artifact_path }}
       GHA_DOCKER_BUILD_ARTIFACT_NAME: ${{ inputs.build_artifact_name }}
       GHA_DOCKER_BUILD_IMAGE_NAME: ${{ inputs.image_name }}
@@ -79,7 +88,7 @@ jobs:
 
       - if: env.GHA_DOCKER_BUILD_ARTIFACT_NAME != ''
         name: Download artifact ${{ env.GHA_DOCKER_BUILD_ARTIFACT_NAME }}
-        id: download-artifact
+        id: download-build-artifact
         uses: actions/download-artifact@v4
         with:
           name: ${{ env.GHA_DOCKER_BUILD_ARTIFACT_NAME }}
@@ -87,10 +96,28 @@ jobs:
 
       - if: env.GHA_DOCKER_BUILD_ARTIFACT_NAME != ''
         name: List artifacts in ${{ env.GHA_DOCKER_BUILD_ARTIFACT_PATH }}
-        id: list-artifacts
+        id: list-build-artifacts
         shell: bash
         run: ls -l ${{ env.GHA_DOCKER_BUILD_ARTIFACT_PATH }}
 
+      - if: env.GHA_DOCKER_BUILD_DOCKERFILE_ARTIFACT_NAME != ''
+        name: Download Dockerfile artifact
+        id: download-dockerfile-artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.GHA_DOCKER_BUILD_DOCKERFILE_ARTIFACT_NAME }}
+          path: /tmp/dockerfile-artifact/
+
+      - if: env.GHA_DOCKER_BUILD_DOCKERFILE_ARTIFACT_NAME != ''
+        name: Set Dockerfile path in env for build step
+        id: set-dockerfile-path
+        run: |
+          # If Dockerfile already exists in repo, use that for building. If Dockerfile artifact is given and a
+          # Dockerfile does not exist in repo, build directly from artifact instead.
+          if [ ! -f "${{ GHA_DOCKER_BUILD_DOCKERFILE }}" ]; then
+            echo "GHA_DOCKER_BUILD_DOCKERFILE=/tmp/dockerfile-artifact/${{ GHA_DOCKER_BUILD_DOCKERFILE_ARTIFACT_FILENAME }}" >> $GITHUB_ENV
+          fi
+            
       - name: Setup buildx
         id: setup-buildx
         uses: docker/setup-buildx-action@v3.6.1
