@@ -1,4 +1,4 @@
-name: Entur/Docker/Push
+name: Entur/Docker/Push - TEMP
 
 on:
   workflow_call:
@@ -19,6 +19,9 @@ on:
         description: "Docker tag. If not set, it will be set to 'branch_name.date-SHA'"
         type: string
         default: "image_tag"
+      extra_image_tags:
+        description: "EXPERIMENTAL: Extra Docker tags to apply and push, comma separated. Requires project-level setting 'Execute Triggers With All Collected Artifacts or Manifests' in Harness."
+        type: string
       cloud_provider:
         description: "Which cloud service provider to use - Google Cloud: 'gcp' or Azure: 'az'"
         type: string
@@ -43,6 +46,7 @@ env:
   GHA_DOCKER_PUSH_CONTEXT: ${{ inputs.context }}
   GHA_DOCKER_PUSH_DOCKERFILE: ${{ inputs.dockerfile }}
   GHA_DOCKER_PUSH_IMAGE_TAG: ${{ inputs.image_tag }}
+  GHA_DOCKER_PUSH_EXTRA_IMAGE_TAGS: ${{ inputs.extra_image_tags }}
   GHA_DOCKER_PUSH_CLOUD_PROVIDER: ${{ inputs.cloud_provider }}
   GHA_DOCKER_PUSH_DATE: ""
   GHA_DOCKER_PUSH_BRANCH_NAME: ""
@@ -151,12 +155,21 @@ jobs:
           azure_tenant_id: ${{ vars.CI_AZURE_TENANT_ID }}
           azure_subscription_id: ${{ vars.CI_AZURE_SUBSCRIPTION_ID }}
 
-      - name: Docker push to registry
-        id: docker-push-single-tag
+      - name: Docker tag and push to registry
+        id: docker-push-tags
         shell: bash
         run: |
-          docker tag ${GHA_DOCKER_PUSH_IMAGE_NAME}:${GITHUB_SHA} ${GHA_DOCKER_PUSH_IMAGE}:${GHA_DOCKER_PUSH_IMAGE_TAG}
-          docker push ${GHA_DOCKER_PUSH_IMAGE}:${GHA_DOCKER_PUSH_IMAGE_TAG}
+          local_tag="${GHA_DOCKER_PUSH_IMAGE_NAME}:${GITHUB_SHA}"
+          tags="${GHA_DOCKER_PUSH_IMAGE_TAG},${GHA_DOCKER_PUSH_EXTRA_IMAGE_TAGS}"
+
+          echo $tags | while read -d ',' -r tag || [[ -n $tag ]]; do
+            remote_tag="${GHA_DOCKER_PUSH_IMAGE}:${tag}"
+
+            echo "Tagging and pushing $local_tag as $remote_tag"
+
+            docker tag $local_tag $remote_tag
+            docker push $remote_tag
+          done
 
       # Tag the git commit with the image tag (used by Harness CD to deploy)
       - if: inputs.git_tag
@@ -169,3 +182,4 @@ jobs:
           git push origin :"$GHA_DOCKER_PUSH_IMAGE_TAG" || true
           git tag -a "$GHA_DOCKER_PUSH_IMAGE_TAG" -m "chore(tag): $GHA_DOCKER_PUSH_IMAGE_TAG [skip ci]"
           git push origin "$GHA_DOCKER_PUSH_IMAGE_TAG" --force
+
