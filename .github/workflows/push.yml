@@ -20,7 +20,7 @@ on:
         type: string
         default: "image_tag"
       extra_image_tags:
-        description: "EXPERIMENTAL: Extra Docker tags to apply and push, comma separated. Requires project-level setting 'Execute Triggers With All Collected Artifacts or Manifests' in Harness."
+        description: "Extra Docker tags (comma separated) to apply and push - Requires Harness project-level setting 'Execute Triggers With All Collected Artifacts or Manifests'"
         type: string
       cloud_provider:
         description: "Which cloud service provider to use - Google Cloud: 'gcp' or Azure: 'az'"
